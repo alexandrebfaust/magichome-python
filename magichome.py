@@ -162,3 +162,23 @@ class MagicHomeApi:
             print("Caught exception socket.error : %s" % exc)
             if self.s:
                 self.s.close()
+
+
+controller1 = MagicHomeApi('192.168.0.11', 3)
+controller2 = MagicHomeApi('192.168.0.26', 3)
+
+root = Tk()
+root.title("H4N3H - RGB Led Strip")
+root.geometry("400x400")
+
+def color():
+    rgb = colorchooser.askcolor()[0]
+    rgb = list(map(int, rgb))
+    print(rgb)
+    controller1.update_device(rgb[0], rgb[1], rgb[2])
+    controller2.update_device(rgb[0], rgb[1], rgb[2])
+    my_label = Label(root, text=rgb).pack(pady=10)
+
+my_button = Button(root, text="Pick a color", command=color).pack()
+
+root.mainloop()
